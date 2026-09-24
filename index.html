@@ -149,24 +149,32 @@ p{margin:0 0 14px}
 .gallery figcaption{font-size:12px;text-align:center;padding-top:6px;color:var(--ink-soft)}
 
 /* stage3 town: route map + nearby shops */
-.route-map{display:flex;flex-direction:column;align-items:center;gap:0;max-width:280px;margin:22px auto 8px}
-@media (min-width:640px){.route-map{flex-direction:row;justify-content:center;max-width:640px}}
-.route-node{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 0}
-.route-node .badge{width:52px;height:52px;border-radius:10px;background:var(--coin);border:3px solid var(--panel-line);box-shadow:0 4px 0 var(--coin-dark);display:grid;place-items:center}
-.route-node .badge svg{width:26px;height:26px;fill:none;stroke:#4a3200;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.route-node .name{font-size:12px;font-weight:700}
-.route-node .time{display:inline-block;font-family:var(--font-en);font-size:10px;color:var(--blue);background:var(--panel);border:2px solid var(--panel-line);border-radius:6px;padding:3px 8px}
-.route-link{display:flex;align-items:center;justify-content:center;flex:none}
-.route-link .dots,.route-link .rail{width:3px;height:26px}
-.route-link .dots{background:repeating-linear-gradient(180deg,var(--panel-line) 0 6px,transparent 6px 12px)}
-.route-link .rail{background:repeating-linear-gradient(180deg,var(--blue) 0 8px,transparent 8px 12px)}
+/* 所要時間は駅の下ではなく区間（線）の横に置く。スマホは縦、640px以上は横 */
+.route-map{display:flex;flex-direction:column;align-items:center;max-width:280px;margin:8px auto 0}
+.route-node{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;width:120px}
+.route-node .badge{width:56px;height:56px;border-radius:12px;background:var(--coin);border:3px solid var(--panel-line);box-shadow:0 4px 0 var(--coin-dark);display:grid;place-items:center}
+.route-node .badge svg{width:28px;height:28px;fill:none;stroke:#4a3200;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.route-node .name{font-size:14px;font-weight:700;white-space:nowrap}
+.route-link{position:relative;flex:none;width:3px;height:56px;margin:8px 0}
+.route-link.walk{background:repeating-linear-gradient(180deg,var(--panel-line) 0 6px,transparent 6px 12px)}
+.route-link.train{background:repeating-linear-gradient(180deg,var(--blue) 0 8px,transparent 8px 12px)}
+.route-link .time{position:absolute;top:50%;left:16px;transform:translateY(-50%);white-space:nowrap;font-size:13px;font-weight:700;color:var(--blue-dark);background:var(--panel);border:2px solid var(--panel-line);border-radius:8px;padding:4px 10px}
 @media (min-width:640px){
-  .route-link .dots,.route-link .rail{width:44px;height:3px}
-  .route-link .dots{background:repeating-linear-gradient(90deg,var(--panel-line) 0 6px,transparent 6px 12px)}
-  .route-link .rail{background:repeating-linear-gradient(90deg,var(--blue) 0 8px,transparent 8px 12px)}
+  .route-map{flex-direction:row;align-items:flex-start;justify-content:center;max-width:none}
+  .route-node .badge{width:68px;height:68px}
+  .route-node .badge svg{width:34px;height:34px}
+  .route-node .name{font-size:15px}
+  .route-link{width:120px;height:3px;margin:32px 0 0}
+  .route-link.walk{background:repeating-linear-gradient(90deg,var(--panel-line) 0 6px,transparent 6px 12px)}
+  .route-link.train{background:repeating-linear-gradient(90deg,var(--blue) 0 8px,transparent 8px 12px)}
+  .route-link .time{top:auto;bottom:12px;left:50%;transform:translateX(-50%)}
 }
-.town-shop-head{text-align:center;font-size:15px;font-weight:700;margin:32px 0 16px}
-.item-box .time{display:block;font-family:var(--font-en);font-size:9px;color:var(--blue);margin-top:4px}
+.town-shop-head{text-align:center;font-size:15px;font-weight:700;margin:36px 0 16px}
+/* お店5件: スマホは3＋2で中央寄せ、640px以上は1列に5件 */
+.town-shops{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:640px;margin:0 auto}
+.town-shops .item-box{flex:0 0 calc((100% - 24px) / 3)}
+@media (min-width:640px){.town-shops .item-box{flex-basis:calc((100% - 48px) / 5)}}
+.town-shops .item-box .time{display:block;font-size:12px;font-weight:700;color:var(--blue-dark);margin-top:4px}
 
 /* item grid */
 .item-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:640px;margin:0 auto}
@@ -342,27 +350,24 @@ footer a{color:var(--coin)}
 <section id="stage3" class="stage">
   <div class="wrap narrow">
     <div class="sec-head"><span class="stagelabel">STAGE 3</span><h2>まち</h2></div>
-    <p class="center">阪急三国駅まで歩いて2分、そこから梅田駅までは電車で8分です。</p>
-    <div class="route-map" aria-hidden="true">
+    <div class="route-map" role="img" aria-label="家から阪急三国駅まで徒歩2分、阪急三国駅から梅田駅まで電車8分">
       <div class="route-node">
         <div class="badge"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12"/><path d="M10 21v-6h4v6"/></svg></div>
         <span class="name">家</span>
       </div>
-      <div class="route-link"><span class="dots"></span></div>
+      <div class="route-link walk"><span class="time">徒歩2分</span></div>
       <div class="route-node">
         <div class="badge"><svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v9a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M7 17l-2 4M17 17l2 4"/></svg></div>
         <span class="name">阪急三国駅</span>
-        <span class="time">徒歩2分</span>
       </div>
-      <div class="route-link"><span class="rail"></span></div>
+      <div class="route-link train"><span class="time">電車8分</span></div>
       <div class="route-node">
         <div class="badge"><svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v9a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M7 17l-2 4M17 17l2 4"/></svg></div>
         <span class="name">梅田駅</span>
-        <span class="time">電車8分</span>
       </div>
     </div>
     <div class="town-shop-head">近くのお店</div>
-    <div class="item-grid">
+    <div class="town-shops">
       <div class="item-box"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></div><span>ドラッグミック</span><span class="time">徒歩3分</span></div>
       <div class="item-box"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7V6a6 6 0 0 1 12 0v1M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5A2 2 0 0 1 5.5 20L4 7z"/></svg></div><span>ローソン</span><span class="time">徒歩4分</span></div>
       <div class="item-box"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7V6a6 6 0 0 1 12 0v1M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5A2 2 0 0 1 5.5 20L4 7z"/></svg></div><span>ファミリーマート</span><span class="time">徒歩2分</span></div>
